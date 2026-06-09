@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BusTracker • Real-Time Bus Tracking</title>
+    <link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
@@ -138,6 +139,27 @@
       body.light .text-zinc-400 {
         color: #334155;
       }
+
+      /* Hero slideshow */
+      .hero-slider {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .hero-slider .slide {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+      }
+
+      .hero-slider .slide.active {
+        opacity: 1;
+      }
     </style>
   </head>
   <body class="tail-container bg-zinc-950 text-zinc-200 overflow-x-hidden">
@@ -201,14 +223,14 @@
     <!-- HERO -->
     <header
       id="hero"
-      class="hero-bg min-h-screen pt-24 pb-20 flex items-center relative"
+      class="hero-bg min-h-screen pt-36 pb-20 flex items-center relative"
     >
       <div
-        class="max-w-screen-2xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center"
+        class="max-w-screen-2xl mx-auto px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center"
       >
         <div class="space-y-8">
           <div
-            class="inline-flex items-center gap-x-2 bg-zinc-900 border border-emerald-900 text-emerald-400 text-sm px-5 py-2 rounded-3xl"
+            class="inline-flex items-center gap-x-2 bg-zinc-900 border border-emerald-900 text-emerald-400 text-sm px-5 py-2 -mb-3 rounded-3xl"
           >
             <div
               class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"
@@ -236,85 +258,46 @@
               <span>Download for Android</span>
             </button>
           </div>
-
-          <div class="flex items-center gap-x-8 text-sm">
-            <div class="flex items-center gap-x-1">
-              <div class="flex -space-x-3">
-                <div
-                  class="w-6 h-6 bg-zinc-700 border-2 border-zinc-900 rounded-full"
-                ></div>
-                <div
-                  class="w-6 h-6 bg-emerald-600 border-2 border-zinc-900 rounded-full"
-                ></div>
-              </div>
-              <span class="text-zinc-400">Trusted by thousands of riders</span>
-            </div>
-            <div class="h-4 w-px bg-zinc-700"></div>
-            <div class="flex items-center text-emerald-400">★★★★☆</div>
-          </div>
         </div>
 
         <!-- Hero Visual -->
         <div class="relative flex justify-center pt-12 md:pt-0">
-          <div class="relative w-full max-w-lg">
+          <div class="relative w-fit max-w-lg">
             <!-- Phone Mock -->
             <div
-              class="bg-zinc-900 p-4 rounded-[3.5rem] shadow-2xl border border-zinc-700 relative z-10"
+              class="bg-zinc-900 p-3 rounded-[2rem] shadow-2xl border border-zinc-700 relative z-10 w-fit"
             >
               <div
-                class="bg-black rounded-[2.75rem] overflow-hidden border border-zinc-800 relative"
+                class="bg-slate-500 rounded-[1.35rem] overflow-hidden border border-zinc-800 relative w-fit h-[520px] max-h-[70vh]"
               >
-                <img
-                  src="./assets/screenshot-1.png"
-                  alt="BusTracker App"
-                  class="w-full h-auto block"
-                />
-
-                <div
-                  class="absolute top-8 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-zinc-700 rounded-full"
-                ></div>
+                <div class="hero-slider w-full h-full aspect-[8/16]">
+                  <img
+                    src="./assets/screenshot-1.png"
+                    alt="Screenshot 1"
+                    class="slide active"
+                  />
+                  <img
+                    src="./assets/screenshot-2.png"
+                    alt="Screenshot 2"
+                    class="slide"
+                  />
+                  <img
+                    src="./assets/screenshot-3.png"
+                    alt="Screenshot 3"
+                    class="slide"
+                  />
+                  <img
+                    src="./assets/screenshot-4.png"
+                    alt="Screenshot 4"
+                    class="slide"
+                  />
+                </div>
               </div>
-            </div>
-
-            <!-- Floating badges -->
-            <div
-              class="absolute -top-8 -left-6 bg-zinc-900 border border-emerald-500 text-emerald-400 text-xs px-6 py-3 rounded-3xl shadow-xl flex items-center gap-x-3"
-            >
-              <i class="fa-solid fa-location-dot"></i>
-              <span>Real-time GPS</span>
-            </div>
-
-            <div
-              class="absolute bottom-8 right-8 bg-zinc-900 border border-white/30 text-white text-xs px-6 py-3 rounded-3xl shadow-2xl flex items-center gap-x-2"
-            >
-              <span class="text-emerald-400">12</span>
-              <span>tracking live</span>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Scroll indicator -->
-      <div
-        class="absolute bottom-12 left-1/2 flex flex-col items-center text-zinc-500 text-xs"
-      >
-        <div class="mb-2">SCROLL TO EXPLORE</div>
-        <i class="fa-solid fa-chevron-down animate-bounce"></i>
-      </div>
     </header>
-
-    <!-- TRUST BAR -->
-    <div class="bg-zinc-900 py-6 border-b border-zinc-800">
-      <div class="max-w-screen-2xl mx-auto px-8">
-        <div
-          class="flex flex-wrap justify-center items-center gap-x-12 gap-y-6 opacity-70 text-sm font-medium"
-        >
-          <span>Built with Expo</span>
-          <span>Google Maps</span>
-          <span>Socket.io</span>
-        </div>
-      </div>
-    </div>
 
     <!-- FEATURES -->
     <section id="features" class="py-28 bg-zinc-950">
@@ -504,9 +487,11 @@
                   class="flex flex-col items-center gap-y-8 relative z-10 text-center"
                 >
                   <div
-                    class="w-20 h-20 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"
-                    style="animation-duration: 3s"
-                  ></div>
+                    class="w-20 h-20 animate-pulse"
+                    style="animation-duration: 1s"
+                  >
+                    <img src="./assets/marker-user.png" alt="User Marker" />
+                  </div>
                   <div>
                     <div class="text-emerald-400 font-medium">
                       Room “School Run” is active
@@ -540,7 +525,7 @@
             class="screenshot bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden reveal"
           >
             <img
-              src="https://picsum.photos/id/1015/600/1200"
+              src="./assets/screenshot-2.png"
               alt="Rooms List"
               class="w-full aspect-[9/19] object-cover"
             />
@@ -551,7 +536,18 @@
             class="screenshot bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden reveal"
           >
             <img
-              src="https://picsum.photos/id/201/600/1200"
+              src="./assets/screenshot-3.png"
+              alt="Fleet Management"
+              class="w-full aspect-[9/19] object-cover"
+            />
+            <div class="p-4 text-xs text-zinc-400">Fleet Management</div>
+          </div>
+
+          <div
+            class="screenshot bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden reveal"
+          >
+            <img
+              src="./assets/screenshot-1.png"
               alt="Live Map"
               class="w-full aspect-[9/19] object-cover"
             />
@@ -562,18 +558,7 @@
             class="screenshot bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden reveal"
           >
             <img
-              src="https://picsum.photos/id/237/600/1200"
-              alt="Drive Mode"
-              class="w-full aspect-[9/19] object-cover"
-            />
-            <div class="p-4 text-xs text-zinc-400">Drive Screen</div>
-          </div>
-
-          <div
-            class="screenshot bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden reveal"
-          >
-            <img
-              src="https://picsum.photos/id/866/600/1200"
+              src="./assets/screenshot-4.png"
               alt="Route Builder"
               class="w-full aspect-[9/19] object-cover"
             />
@@ -663,8 +648,7 @@
           Ready to track smarter?
         </h2>
         <p class="mt-6 text-emerald-100 text-2xl">
-          Join thousands already using BusTracker for safer, more reliable
-          commutes.
+          Join BusTracker for safer, more reliable commutes.
         </p>
 
         <div class="mt-12">
@@ -711,7 +695,9 @@
                 Product
               </div>
               <div class="space-y-4 text-sm">
-                <div class="cursor-pointer hover:text-white">Features</div>
+                <a href="#features" class="cursor-pointer hover:text-white"
+                  >Features</a
+                >
                 <div class="cursor-pointer hover:text-white">For Schools</div>
                 <div class="cursor-pointer hover:text-white">For Fleets</div>
               </div>
@@ -744,8 +730,16 @@
         <div
           class="mt-20 pt-8 border-t border-zinc-900 text-xs text-zinc-500 flex flex-col md:flex-row justify-between items-center"
         >
-          <div>© 2026 BusTracker. All rights reserved.</div>
-          <div class="mt-4 md:mt-0">Made for safer roads</div>
+          <div>&copy; 2026 BusTracker. All rights reserved.</div>
+          <div class="mt-4 md:mt-0">
+            Made for safer roads by
+            <a
+              href="https://shahsaminyasar.vercel.app"
+              target="_blank"
+              class="font-medium text-teal-400"
+              >Shah Samin Yasar</a
+            >
+          </div>
         </div>
       </div>
     </footer>
@@ -774,7 +768,8 @@
       // Download handler
       function downloadApp() {
         const link = document.createElement("a");
-        link.href = "#"; // Replace with real APK link when available
+        link.href =
+          "https://github.com/ShahSaminYasar/bus-tracker/releases/download/v1.0.0/app-release.apk";
         link.download = "BusTracker-v1.0.0.apk";
         document.body.appendChild(link);
         link.click();
@@ -791,10 +786,6 @@
             }, 2200);
           }
         });
-
-        alert(
-          "Download started! (This is a demo. Replace link with real APK URL)",
-        );
       }
 
       // Reveal on scroll
@@ -820,8 +811,8 @@
       // Initialize
       window.onload = function () {
         initScrollReveals();
+        initHeroSlider();
 
-        // Load saved theme
         if (localStorage.getItem("theme") === "light") {
           document.body.classList.add("light");
           document.getElementById("theme-icon").classList.remove("fa-moon");
@@ -833,6 +824,22 @@
           "color:#04cc75; font-family:monospace",
         );
       };
+
+      function initHeroSlider() {
+        const slides = document.querySelectorAll(".hero-slider .slide");
+
+        if (!slides.length) return;
+
+        let current = 0;
+
+        setInterval(() => {
+          slides[current].classList.remove("active");
+
+          current = (current + 1) % slides.length;
+
+          slides[current].classList.add("active");
+        }, 3000); // change every 3 seconds
+      }
     </script>
   </body>
 </html>

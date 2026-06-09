@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BusTracker • Real-Time Bus Tracking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Inter:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Inter:wght@400;500;600&amp;display=swap");
+
+      :root {
+        --primary: #04cc75;
+      }
+
+      .tail-container {
+        font-family: "Inter", system_ui, sans-serif;
+      }
+
+      .heading-font {
+        font-family: "Playfair Display", serif;
+      }
+
+      .hero-bg {
+        background: linear-gradient(135deg, #0a0a0a 0%, #111827 100%);
+      }
+
+      .nav-link {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .nav-link:hover {
+        color: #04cc75;
+        transform: translateY(-2px);
+      }
+
+      .feature-card {
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 25px 50px -12px rgb(4 204 117 / 0.25);
+      }
+
+      .screenshot {
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .screenshot:hover {
+        transform: scale(1.04) rotate(1deg);
+        box-shadow: 0 30px 60px -15px rgb(4 204 117 / 0.3);
+      }
+
+      .bus-marker {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.15);
+        }
+      }
+
+      .section-header {
+        position: relative;
+      }
+
+      .section-header:after {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 3px;
+        background: #04cc75;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 9999px;
+      }
+
+      .map-bg {
+        background:
+          linear-gradient(rgba(4, 204, 117, 0.1), rgba(4, 204, 117, 0.05)),
+          url("https://picsum.photos/id/1015/1200/800") center/cover;
+      }
+
+      /* Smooth scroll */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Scroll reveal animation */
+      .reveal {
+        opacity: 0;
+        transform: translateY(60px);
+        transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Theme support */
+      body.light {
+        background-color: #f8fafc;
+        color: #1f2937;
+      }
+
+      body.light .hero-bg {
+        background: linear-gradient(135deg, #f1f5f9 0%, #e0f2fe 100%);
+      }
+
+      body.light .bg-zinc-950,
+      body.light .bg-zinc-900,
+      body.light .bg-black {
+        background-color: #ffffff !important;
+        color: #1f2937;
+      }
+
+      body.light .border-zinc-800,
+      body.light .border-zinc-700 {
+        border-color: #e2e8f0;
+      }
+
+      body.light .text-zinc-200,
+      body.light .text-zinc-400 {
+        color: #334155;
+      }
+    </style>
+  </head>
+  <body class="tail-container bg-zinc-950 text-zinc-200 overflow-x-hidden">
+    <!-- NAVBAR -->
+    <nav
+      class="bg-zinc-950 border-b border-zinc-800 fixed w-full z-50 transition-colors"
+    >
+      <div class="max-w-screen-2xl mx-auto">
+        <div class="px-8 py-5 flex items-center justify-between">
+          <div class="flex items-center gap-x-3">
+            <img
+              src="./assets/logo.png"
+              alt="BusTracker"
+              class="w-16 h-13 rounded-2xl object-contain"
+            />
+            <span
+              class="heading-font text-3xl font-bold tracking-tighter text-white"
+            >
+              BusTracker
+            </span>
+          </div>
+
+          <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+            <a href="#features" class="nav-link text-zinc-400 hover:text-white"
+              >Features</a
+            >
+            <a href="#how" class="nav-link text-zinc-400 hover:text-white"
+              >How it Works</a
+            >
+            <a
+              href="#screenshots"
+              class="nav-link text-zinc-400 hover:text-white"
+              >Screenshots</a
+            >
+            <a href="#roles" class="nav-link text-zinc-400 hover:text-white"
+              >For Everyone</a
+            >
+          </div>
+
+          <div class="flex items-center gap-x-4">
+            <button
+              onclick="toggleTheme()"
+              class="w-10 h-10 flex items-center justify-center text-xl text-zinc-400 hover:text-white transition-colors rounded-2xl hover:bg-zinc-900"
+            >
+              <i id="theme-icon" class="fa-solid fa-moon"></i>
+            </button>
+
+            <a
+              href="#"
+              onclick="downloadApp()"
+              class="px-6 py-2.5 text-sm font-semibold border border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-white rounded-3xl transition-all flex items-center gap-x-2"
+            >
+              <i class="fa-solid fa-download"></i>
+              <span>Download APK</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header
+      id="hero"
+      class="hero-bg min-h-screen pt-24 pb-20 flex items-center relative"
+    >
+      <div
+        class="max-w-screen-2xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center"
+      >
+        <div class="space-y-8">
+          <div
+            class="inline-flex items-center gap-x-2 bg-zinc-900 border border-emerald-900 text-emerald-400 text-sm px-5 py-2 rounded-3xl"
+          >
+            <div
+              class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"
+            ></div>
+            LIVE TRACKING ROOMS
+          </div>
+
+          <h1
+            class="heading-font text-5xl sm:text-6xl lg:text-7xl xl:text-[82px] font-bold leading-tight tracking-tighter text-white"
+          >
+            Never miss<br />your bus again.
+          </h1>
+
+          <p class="text-xl text-zinc-400 max-w-md">
+            Real-time collaborative bus tracking. Create rooms, share locations,
+            and track your fleet with friends, schools, or communities.
+          </p>
+
+          <div class="flex flex-wrap gap-4">
+            <button
+              onclick="downloadApp()"
+              class="px-10 py-5 bg-emerald-500 hover:bg-emerald-600 transition-all text-black font-semibold text-lg rounded-3xl flex items-center gap-x-3 shadow-xl shadow-emerald-500/30"
+            >
+              <i class="fa-solid fa-download"></i>
+              <span>Download for Android</span>
+            </button>
+          </div>
+
+          <div class="flex items-center gap-x-8 text-sm">
+            <div class="flex items-center gap-x-1">
+              <div class="flex -space-x-3">
+                <div
+                  class="w-6 h-6 bg-zinc-700 border-2 border-zinc-900 rounded-full"
+                ></div>
+                <div
+                  class="w-6 h-6 bg-emerald-600 border-2 border-zinc-900 rounded-full"
+                ></div>
+              </div>
+              <span class="text-zinc-400">Trusted by thousands of riders</span>
+            </div>
+            <div class="h-4 w-px bg-zinc-700"></div>
+            <div class="flex items-center text-emerald-400">★★★★☆</div>
+          </div>
+        </div>
+
+        <!-- Hero Visual -->
+        <div class="relative flex justify-center pt-12 md:pt-0">
+          <div class="relative w-full max-w-lg">
+            <!-- Phone Mock -->
+            <div
+              class="bg-zinc-900 p-4 rounded-[3.5rem] shadow-2xl border border-zinc-700 relative z-10"
+            >
+              <div
+                class="bg-black rounded-[2.75rem] overflow-hidden border border-zinc-800 relative"
+              >
+                <img
+                  src="./assets/screenshot-1.png"
+                  alt="BusTracker App"
+                  class="w-full h-auto block"
+                />
+
+                <div
+                  class="absolute top-8 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-zinc-700 rounded-full"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Floating badges -->
+            <div
+              class="absolute -top-8 -left-6 bg-zinc-900 border border-emerald-500 text-emerald-400 text-xs px-6 py-3 rounded-3xl shadow-xl flex items-center gap-x-3"
+            >
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Real-time GPS</span>
+            </div>
+
+            <div
+              class="absolute bottom-8 right-8 bg-zinc-900 border border-white/30 text-white text-xs px-6 py-3 rounded-3xl shadow-2xl flex items-center gap-x-2"
+            >
+              <span class="text-emerald-400">12</span>
+              <span>tracking live</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div
+        class="absolute bottom-12 left-1/2 flex flex-col items-center text-zinc-500 text-xs"
+      >
+        <div class="mb-2">SCROLL TO EXPLORE</div>
+        <i class="fa-solid fa-chevron-down animate-bounce"></i>
+      </div>
+    </header>
+
+    <!-- TRUST BAR -->
+    <div class="bg-zinc-900 py-6 border-b border-zinc-800">
+      <div class="max-w-screen-2xl mx-auto px-8">
+        <div
+          class="flex flex-wrap justify-center items-center gap-x-12 gap-y-6 opacity-70 text-sm font-medium"
+        >
+          <span>Built with Expo</span>
+          <span>Google Maps</span>
+          <span>Socket.io</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section id="features" class="py-28 bg-zinc-950">
+      <div class="max-w-screen-2xl mx-auto px-8">
+        <div class="text-center mb-16">
+          <span
+            class="px-4 py-1.5 text-xs tracking-widest font-mono bg-emerald-900/50 text-emerald-400 rounded-3xl"
+            >POWERFUL FEATURES</span
+          >
+          <h2 class="heading-font text-6xl font-bold mt-6 reveal">
+            Built for real journeys
+          </h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div
+            class="feature-card bg-zinc-900 border border-zinc-800 rounded-3xl p-10 reveal"
+          >
+            <div
+              class="w-14 h-14 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-4xl mb-8"
+            >
+              🗺️
+            </div>
+            <h3 class="text-3xl heading-font font-semibold mb-3">
+              Live Collaborative Maps
+            </h3>
+            <p class="text-zinc-400">
+              Create private tracking rooms. Drivers share live GPS while
+              passengers follow every move in real-time.
+            </p>
+            <ul class="mt-8 space-y-4 text-sm">
+              <li class="flex items-center gap-x-3">
+                <i class="fa-solid fa-check text-emerald-500"></i> Animated bus
+                icons
+              </li>
+              <li class="flex items-center gap-x-3">
+                <i class="fa-solid fa-check text-emerald-500"></i> ETA
+                predictions
+              </li>
+              <li class="flex items-center gap-x-3">
+                <i class="fa-solid fa-check text-emerald-500"></i> Route
+                visualization
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="feature-card bg-zinc-900 border border-zinc-800 rounded-3xl p-10 reveal"
+          >
+            <div
+              class="w-14 h-14 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-4xl mb-8"
+            >
+              🔑
+            </div>
+            <h3 class="text-3xl heading-font font-semibold mb-3">
+              Room-based Access
+            </h3>
+            <p class="text-zinc-400">
+              Invite-only rooms with 6-digit codes. Perfect for school buses,
+              corporate shuttles, or family trips.
+            </p>
+            <ul class="mt-8 space-y-4 text-sm">
+              <li class="flex items-center gap-x-3">
+                <i class="fa-solid fa-check text-emerald-500"></i> Admin, Driver
+                &amp; Viewer roles
+              </li>
+              <li class="flex items-center gap-x-3">
+                <i class="fa-solid fa-check text-emerald-500"></i> Join approval
+                workflow
+              </li>
+              <li class="flex items-center gap-x-3">
+                <i class="fa-solid fa-check text-emerald-500"></i> Shareable
+                codes
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="feature-card bg-zinc-900 border border-zinc-800 rounded-3xl p-10 reveal"
+          >
+            <div
+              class="w-14 h-14 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-4xl mb-8"
+            >
+              📍
+            </div>
+            <h3 class="text-3xl heading-font font-semibold mb-3">
+              Background Tracking
+            </h3>
+            <p class="text-zinc-400">
+              Drivers can run in background with notifications. Passengers get
+              instant updates.
+            </p>
+            <ul class="mt-8 space-y-4 text-sm">
+              <li class="flex items-center gap-x-3">
+                <i class="fa-solid fa-check text-emerald-500"></i> Reliable GPS
+                updates
+              </li>
+              <li class="flex items-center gap-x-3">
+                <i class="fa-solid fa-check text-emerald-500"></i> Live
+                WebSocket sync
+              </li>
+              <li class="flex items-center gap-x-3">
+                <i class="fa-solid fa-check text-emerald-500"></i> Efficient
+                performance
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" class="py-28 bg-zinc-900">
+      <div class="max-w-screen-2xl mx-auto px-8">
+        <div class="grid md:grid-cols-12 gap-16 items-center">
+          <div class="md:col-span-5">
+            <span class="inline text-emerald-400 text-sm font-mono"
+              >3 STEPS • 30 SECONDS</span
+            >
+            <h2
+              class="heading-font text-6xl font-bold leading-none mt-4 reveal"
+            >
+              From zero to tracking in seconds
+            </h2>
+            <p class="mt-8 text-zinc-400 text-lg">
+              Whether you're a driver, parent, or fleet manager — BusTracker
+              makes coordination effortless.
+            </p>
+
+            <div class="mt-12 space-y-10">
+              <div class="flex gap-x-6 reveal">
+                <div
+                  class="w-10 h-10 flex-shrink-0 bg-emerald-500 text-black rounded-2xl flex items-center justify-center font-bold"
+                >
+                  1
+                </div>
+                <div>
+                  <h4 class="font-semibold text-xl">Create or Join a Room</h4>
+                  <p class="text-zinc-400">
+                    Generate a room for your group or join using a simple
+                    6-digit code.
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-x-6 reveal">
+                <div
+                  class="w-10 h-10 flex-shrink-0 bg-emerald-500 text-black rounded-2xl flex items-center justify-center font-bold"
+                >
+                  2
+                </div>
+                <div>
+                  <h4 class="font-semibold text-xl">Add Buses &amp; Routes</h4>
+                  <p class="text-zinc-400">
+                    Define vehicles with colors and map out the exact stops.
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-x-6 reveal">
+                <div
+                  class="w-10 h-10 flex-shrink-0 bg-emerald-500 text-black rounded-2xl flex items-center justify-center font-bold"
+                >
+                  3
+                </div>
+                <div>
+                  <h4 class="font-semibold text-xl">
+                    Start Driving or Watching
+                  </h4>
+                  <p class="text-zinc-400">
+                    Drivers go live. Everyone tracks progress with beautiful
+                    live ETAs.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:col-span-7 reveal">
+            <div class="bg-zinc-950 border border-zinc-700 rounded-3xl p-2">
+              <div
+                class="bg-[#111827] rounded-3xl p-8 relative h-96 flex items-center justify-center overflow-hidden"
+              >
+                <div
+                  class="absolute inset-0 bg-[radial-gradient(#04cc75_1px,transparent_1px)] [background-size:40px_40px] opacity-10"
+                ></div>
+
+                <div
+                  class="flex flex-col items-center gap-y-8 relative z-10 text-center"
+                >
+                  <div
+                    class="w-20 h-20 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"
+                    style="animation-duration: 3s"
+                  ></div>
+                  <div>
+                    <div class="text-emerald-400 font-medium">
+                      Room “School Run” is active
+                    </div>
+                    <div class="mt-3 text-3xl font-light text-white">
+                      Bus heading to next stop
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREENSHOTS -->
+    <section id="screenshots" class="py-28 bg-zinc-950">
+      <div class="max-w-screen-2xl mx-auto px-8">
+        <div class="text-center mb-16">
+          <h2 class="heading-font text-6xl font-bold reveal">
+            Beautifully designed
+          </h2>
+          <p class="mt-4 text-zinc-400 max-w-md mx-auto">
+            Clean and intuitive interface focused on clarity and speed.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div
+            class="screenshot bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden reveal"
+          >
+            <img
+              src="https://picsum.photos/id/1015/600/1200"
+              alt="Rooms List"
+              class="w-full aspect-[9/19] object-cover"
+            />
+            <div class="p-4 text-xs text-zinc-400">Rooms Hub</div>
+          </div>
+
+          <div
+            class="screenshot bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden reveal"
+          >
+            <img
+              src="https://picsum.photos/id/201/600/1200"
+              alt="Live Map"
+              class="w-full aspect-[9/19] object-cover"
+            />
+            <div class="p-4 text-xs text-zinc-400">Live Map View</div>
+          </div>
+
+          <div
+            class="screenshot bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden reveal"
+          >
+            <img
+              src="https://picsum.photos/id/237/600/1200"
+              alt="Drive Mode"
+              class="w-full aspect-[9/19] object-cover"
+            />
+            <div class="p-4 text-xs text-zinc-400">Drive Screen</div>
+          </div>
+
+          <div
+            class="screenshot bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden reveal"
+          >
+            <img
+              src="https://picsum.photos/id/866/600/1200"
+              alt="Route Builder"
+              class="w-full aspect-[9/19] object-cover"
+            />
+            <div class="p-4 text-xs text-zinc-400">Route Creator</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROLES -->
+    <section id="roles" class="py-28 bg-zinc-900">
+      <div class="max-w-screen-2xl mx-auto px-8">
+        <div class="grid md:grid-cols-3 gap-8">
+          <div
+            class="bg-zinc-950 rounded-3xl p-10 border border-emerald-900 reveal"
+          >
+            <div class="uppercase text-xs tracking-widest text-amber-400 mb-2">
+              ROLE
+            </div>
+            <div class="text-4xl heading-font font-bold mb-6">Admin</div>
+            <ul class="space-y-6">
+              <li class="flex gap-x-4">
+                <span class="text-emerald-400">✓</span> Create &amp; manage
+                rooms
+              </li>
+              <li class="flex gap-x-4">
+                <span class="text-emerald-400">✓</span> Approve new members
+              </li>
+              <li class="flex gap-x-4">
+                <span class="text-emerald-400">✓</span> Add buses &amp; routes
+              </li>
+              <li class="flex gap-x-4">
+                <span class="text-emerald-400">✓</span> Full control
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="bg-zinc-950 rounded-3xl p-10 border border-white/10 reveal"
+          >
+            <div class="uppercase text-xs tracking-widest text-sky-400 mb-2">
+              ROLE
+            </div>
+            <div class="text-4xl heading-font font-bold mb-6">Driver</div>
+            <ul class="space-y-6">
+              <li class="flex gap-x-4">
+                <span class="text-emerald-400">✓</span> Start live trips
+              </li>
+              <li class="flex gap-x-4">
+                <span class="text-emerald-400">✓</span> Share GPS in background
+              </li>
+              <li class="flex gap-x-4">
+                <span class="text-emerald-400">✓</span> Select active route
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="bg-zinc-950 rounded-3xl p-10 border border-white/10 reveal"
+          >
+            <div class="uppercase text-xs tracking-widest text-violet-400 mb-2">
+              ROLE
+            </div>
+            <div class="text-4xl heading-font font-bold mb-6">Viewer</div>
+            <ul class="space-y-6">
+              <li class="flex gap-x-4">
+                <span class="text-emerald-400">✓</span> Real-time bus positions
+              </li>
+              <li class="flex gap-x-4">
+                <span class="text-emerald-400">✓</span> See ETAs &amp; routes
+              </li>
+              <li class="flex gap-x-4">
+                <span class="text-emerald-400">✓</span> Beautiful map interface
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <div
+      class="bg-gradient-to-br from-emerald-600 to-teal-600 py-28 text-center relative overflow-hidden"
+    >
+      <div class="max-w-2xl mx-auto px-6 relative z-10">
+        <h2 class="heading-font text-6xl font-bold text-white reveal">
+          Ready to track smarter?
+        </h2>
+        <p class="mt-6 text-emerald-100 text-2xl">
+          Join thousands already using BusTracker for safer, more reliable
+          commutes.
+        </p>
+
+        <div class="mt-12">
+          <button
+            onclick="downloadApp()"
+            class="px-16 py-7 bg-white text-xl font-semibold text-black rounded-3xl hover:scale-105 transition-all flex items-center justify-center gap-x-4 mx-auto"
+          >
+            <i class="fa-solid fa-download text-3xl"></i>
+            <span>Download APK Now</span>
+          </button>
+        </div>
+
+        <div class="text-emerald-100/70 text-sm mt-8">
+          Android APK • Free to use
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-20">
+      <div class="max-w-screen-2xl mx-auto px-8">
+        <div
+          class="flex flex-col md:flex-row justify-between items-start gap-y-12"
+        >
+          <div>
+            <div class="flex items-center gap-x-3 mb-6">
+              <img
+                src="./assets/logo.png"
+                alt="BusTracker"
+                class="w-20 h-20 rounded-2xl object-contain"
+              />
+              <span class="heading-font text-4xl font-bold">BusTracker</span>
+            </div>
+            <p class="text-zinc-500 max-w-xs">
+              Real-time bus tracking made simple and beautiful.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-3 gap-x-16">
+            <div>
+              <div
+                class="uppercase text-xs font-medium tracking-widest mb-6 text-zinc-500"
+              >
+                Product
+              </div>
+              <div class="space-y-4 text-sm">
+                <div class="cursor-pointer hover:text-white">Features</div>
+                <div class="cursor-pointer hover:text-white">For Schools</div>
+                <div class="cursor-pointer hover:text-white">For Fleets</div>
+              </div>
+            </div>
+            <div>
+              <div
+                class="uppercase text-xs font-medium tracking-widest mb-6 text-zinc-500"
+              >
+                Company
+              </div>
+              <div class="space-y-4 text-sm">
+                <div class="cursor-pointer hover:text-white">About</div>
+                <div class="cursor-pointer hover:text-white">Contact</div>
+              </div>
+            </div>
+            <div>
+              <div
+                class="uppercase text-xs font-medium tracking-widest mb-6 text-zinc-500"
+              >
+                Legal
+              </div>
+              <div class="space-y-4 text-sm">
+                <div class="cursor-pointer hover:text-white">Privacy</div>
+                <div class="cursor-pointer hover:text-white">Terms</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="mt-20 pt-8 border-t border-zinc-900 text-xs text-zinc-500 flex flex-col md:flex-row justify-between items-center"
+        >
+          <div>© 2026 BusTracker. All rights reserved.</div>
+          <div class="mt-4 md:mt-0">Made for safer roads</div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Tailwind already loaded
+
+      // Theme toggle
+      function toggleTheme() {
+        const body = document.body;
+        const icon = document.getElementById("theme-icon");
+
+        if (body.classList.contains("light")) {
+          body.classList.remove("light");
+          icon.classList.remove("fa-sun");
+          icon.classList.add("fa-moon");
+          localStorage.setItem("theme", "dark");
+        } else {
+          body.classList.add("light");
+          icon.classList.remove("fa-moon");
+          icon.classList.add("fa-sun");
+          localStorage.setItem("theme", "light");
+        }
+      }
+
+      // Download handler
+      function downloadApp() {
+        const link = document.createElement("a");
+        link.href = "#"; // Replace with real APK link when available
+        link.download = "BusTracker-v1.0.0.apk";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Visual feedback
+        const btns = document.querySelectorAll("button, a");
+        btns.forEach((btn) => {
+          if (btn.textContent.includes("Download")) {
+            const original = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-check"></i> Starting download...`;
+            setTimeout(() => {
+              btn.innerHTML = original;
+            }, 2200);
+          }
+        });
+
+        alert(
+          "Download started! (This is a demo. Replace link with real APK URL)",
+        );
+      }
+
+      // Reveal on scroll
+      function initScrollReveals() {
+        const reveals = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+              }
+            });
+          },
+          {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px",
+          },
+        );
+
+        reveals.forEach((reveal) => observer.observe(reveal));
+      }
+
+      // Initialize
+      window.onload = function () {
+        initScrollReveals();
+
+        // Load saved theme
+        if (localStorage.getItem("theme") === "light") {
+          document.body.classList.add("light");
+          document.getElementById("theme-icon").classList.remove("fa-moon");
+          document.getElementById("theme-icon").classList.add("fa-sun");
+        }
+
+        console.log(
+          "%cBusTracker Landing Page ready 🚀",
+          "color:#04cc75; font-family:monospace",
+        );
+      };
+    </script>
+  </body>
+</html>

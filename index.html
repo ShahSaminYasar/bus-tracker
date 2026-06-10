@@ -210,7 +210,9 @@
       id="navbar"
     >
       <div class="max-w-screen-2xl mx-auto">
-        <div class="px-6 md:px-8 py-4 flex items-center justify-between">
+        <div
+          class="px-3 lg:px-6 md:px-8 py-4 flex items-center justify-between gap-5"
+        >
           <!-- Logo -->
           <a href="#" class="flex items-center gap-x-3">
             <img
@@ -244,7 +246,7 @@
           </div>
 
           <!-- Right Controls -->
-          <div class="flex items-center gap-x-3">
+          <div class="flex items-center gap-x-1 md:gap-x-3">
             <!-- Theme Toggle -->
             <button
               onclick="toggleTheme()"
@@ -334,14 +336,15 @@
     <!-- HERO -->
     <header
       id="hero"
-      class="hero-bg min-h-screen pt-36 pb-20 flex items-center relative"
+      class="hero-bg min-h-screen pt-28 md:pt-36 pb-20 flex items-center relative overflow-hidden"
     >
       <div
-        class="max-w-screen-2xl mx-auto px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center"
+        class="w-full max-w-screen-2xl mx-auto px-4 sm:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center"
       >
+        <!-- Text Column -->
         <div class="flex flex-col gap-8 items-center lg:items-start">
           <div
-            class="inline-flex items-center gap-x-2 bg-zinc-900 border border-emerald-900 text-emerald-400 text-sm px-5 py-2 -mb-3 rounded-3xl reveal"
+            class="inline-flex items-center gap-x-2 bg-zinc-900 border border-emerald-900 text-emerald-400 text-sm px-5 py-2 -mb-3 rounded-3xl"
           >
             <div
               class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"
@@ -362,10 +365,10 @@
             and track your fleet with friends, schools, or communities.
           </p>
 
-          <div class="flex flex-wrap gap-4">
+          <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
             <button
               onclick="downloadApp()"
-              class="px-10 py-5 bg-emerald-500 hover:bg-emerald-600 transition-all text-white font-semibold text-lg rounded-3xl flex items-center gap-x-3 shadow-xl shadow-emerald-500/30"
+              class="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 transition-all text-white font-semibold text-lg rounded-3xl flex items-center gap-x-3 shadow-xl shadow-emerald-500/30"
             >
               <i class="fa-solid fa-download"></i>
               <span>Download for Android</span>
@@ -374,16 +377,19 @@
         </div>
 
         <!-- Hero Visual -->
-        <div class="relative flex justify-center pt-12 md:pt-0">
-          <div class="relative w-fit max-w-lg">
+        <div class="flex justify-center pt-8 lg:pt-0">
+          <div
+            class="relative w-[290px] sm:w-[240px] md:w-[270px] lg:w-[300px] xl:w-[320px]"
+          >
             <!-- Phone Mock -->
             <div
-              class="bg-zinc-900 p-3 rounded-[2rem] shadow-2xl border border-zinc-700 relative z-10 w-fit reveal"
+              class="bg-zinc-900 p-3 rounded-[2rem] shadow-2xl border border-zinc-700 relative z-10"
             >
               <div
-                class="bg-slate-500 rounded-[1.35rem] overflow-hidden border border-zinc-800 relative w-fit h-[720px] max-h-[80vh]"
+                class="bg-slate-500 rounded-[1.35rem] overflow-hidden border border-zinc-800 relative"
+                style="aspect-ratio: 8/16"
               >
-                <div class="hero-slider w-full h-full aspect-[8/16]">
+                <div class="hero-slider w-full h-full">
                   <img
                     src="./assets/screenshot-1.png"
                     alt="Screenshot 1"
@@ -420,7 +426,9 @@
             class="px-4 py-1.5 text-xs tracking-widest font-mono bg-emerald-900/80 text-emerald-400 rounded-3xl"
             >POWERFUL FEATURES</span
           >
-          <h2 class="heading-font text-6xl font-bold mt-6 reveal">
+          <h2
+            class="heading-font text-4xl sm:text-5xl md:text-6xl font-bold mt-6 reveal"
+          >
             Built for real journeys
           </h2>
         </div>
@@ -533,7 +541,7 @@
               >3 STEPS</span
             >
             <h2
-              class="heading-font text-6xl font-bold leading-none mt-4 reveal"
+              class="heading-font text-4xl sm:text-5xl md:text-6xl font-bold leading-none mt-4 reveal"
             >
               From zero to tracking in seconds
             </h2>
@@ -630,7 +638,9 @@
     <section id="screenshots" class="py-28 bg-zinc-950">
       <div class="max-w-screen-2xl mx-auto px-8">
         <div class="text-center mb-16">
-          <h2 class="heading-font text-6xl font-bold reveal">
+          <h2
+            class="heading-font text-4xl sm:text-5xl md:text-6xl font-bold reveal"
+          >
             Beautifully designed
           </h2>
           <p class="mt-4 text-zinc-400 max-w-md mx-auto">
@@ -762,7 +772,9 @@
       class="bg-gradient-to-br from-emerald-600 to-teal-600 py-28 text-center relative overflow-hidden"
     >
       <div class="max-w-2xl mx-auto px-6 relative z-10">
-        <h2 class="heading-font text-6xl font-bold text-white reveal">
+        <h2
+          class="heading-font text-4xl sm:text-5xl md:text-6xl font-bold text-white reveal"
+        >
           Ready to track smarter?
         </h2>
         <p class="mt-6 text-emerald-100 text-2xl">
@@ -798,7 +810,9 @@
                 alt="BusTracker"
                 class="w-20 h-20 rounded-2xl object-contain"
               />
-              <span class="heading-font text-4xl font-bold">BusTracker</span>
+              <span class="heading-font text-3xl sm:text-4xl font-bold"
+                >BusTracker</span
+              >
             </div>
             <p class="text-zinc-500">
               Real-time bus tracking made simple and beautiful.
@@ -813,11 +827,13 @@
                 Product
               </div>
               <div class="text-sm flex flex-col gap-1">
-                <a href="#features" class="cursor-pointer hover:text-white"
+                <a href="#features" class="cursor-pointer hover:text-zinc-400"
                   >Features</a
                 >
-                <div class="cursor-pointer hover:text-white">For Schools</div>
-                <div class="cursor-pointer hover:text-white">For Fleets</div>
+                <div class="cursor-pointer hover:text-zinc-400">
+                  For Schools
+                </div>
+                <div class="cursor-pointer hover:text-zinc-400">For Fleets</div>
               </div>
             </div>
             <div class="flex flex-col gap-1">
@@ -827,8 +843,8 @@
                 Company
               </div>
               <div class="text-sm flex flex-col gap-1">
-                <div class="cursor-pointer hover:text-white">About</div>
-                <div class="cursor-pointer hover:text-white">Contact</div>
+                <div class="cursor-pointer hover:text-zinc-400">About</div>
+                <div class="cursor-pointer hover:text-zinc-400">Contact</div>
               </div>
             </div>
             <div class="flex flex-col gap-1">
@@ -838,8 +854,8 @@
                 Legal
               </div>
               <div class="text-sm flex flex-col gap-1">
-                <div class="cursor-pointer hover:text-white">Privacy</div>
-                <div class="cursor-pointer hover:text-white">Terms</div>
+                <div class="cursor-pointer hover:text-zinc-400">Privacy</div>
+                <div class="cursor-pointer hover:text-zinc-400">Terms</div>
               </div>
             </div>
           </div>

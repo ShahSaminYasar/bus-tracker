@@ -44,6 +44,9 @@
 
       .feature-card {
         transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 100%;
+        max-width: 380px;
+        margin: 0 auto;
       }
 
       .feature-card:hover {
@@ -160,28 +163,69 @@
       .hero-slider .slide.active {
         opacity: 1;
       }
+
+      /* Mobile nav link */
+      .mobile-nav-link {
+        display: block;
+        padding: 0.65rem 0.75rem;
+        border-radius: 0.75rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #a1a1aa; /* zinc-400 */
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      .mobile-nav-link:hover {
+        background-color: #18181b; /* zinc-900 */
+        color: #ffffff;
+        transform: translateX(4px);
+      }
+
+      /* Burger → X animation */
+      #burger-btn.open .burger-line:nth-child(1) {
+        transform: translateY(6.5px) rotate(45deg);
+      }
+      #burger-btn.open .burger-line:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      #burger-btn.open .burger-line:nth-child(3) {
+        transform: translateY(-6.5px) rotate(-45deg);
+      }
+
+      /* Mobile menu open state */
+      #mobile-menu.open {
+        max-height: 320px;
+        opacity: 1;
+        border-color: rgb(39 39 42); /* zinc-800 */
+      }
     </style>
   </head>
   <body class="tail-container bg-zinc-950 text-zinc-200 overflow-x-hidden">
-    <!-- NAVBAR -->
     <nav
       class="bg-zinc-950 border-b border-zinc-800 fixed w-full z-50 transition-colors"
+      id="navbar"
     >
       <div class="max-w-screen-2xl mx-auto">
-        <div class="px-8 py-5 flex items-center justify-between">
-          <div class="flex items-center gap-x-3">
+        <div class="px-6 md:px-8 py-4 flex items-center justify-between">
+          <!-- Logo -->
+          <a href="#" class="flex items-center gap-x-3">
             <img
               src="./assets/logo.png"
               alt="BusTracker"
-              class="w-16 h-13 rounded-2xl object-contain"
+              class="w-14 h-14 rounded-2xl object-contain"
             />
             <span
-              class="heading-font text-3xl font-bold tracking-tighter text-white"
+              class="heading-font text-2xl md:text-3xl font-bold tracking-tighter text-zinc-200"
             >
               BusTracker
             </span>
-          </div>
+          </a>
 
+          <!-- Desktop Nav Links -->
           <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
             <a href="#features" class="nav-link text-zinc-400 hover:text-white"
               >Features</a
@@ -199,7 +243,9 @@
             >
           </div>
 
-          <div class="flex items-center gap-x-4">
+          <!-- Right Controls -->
+          <div class="flex items-center gap-x-3">
+            <!-- Theme Toggle -->
             <button
               onclick="toggleTheme()"
               class="w-10 h-10 flex items-center justify-center text-xl text-zinc-400 hover:text-white transition-colors rounded-2xl hover:bg-zinc-900"
@@ -207,15 +253,80 @@
               <i id="theme-icon" class="fa-solid fa-moon"></i>
             </button>
 
+            <!-- Desktop Download Button -->
             <a
               href="#"
               onclick="downloadApp()"
-              class="px-6 py-2.5 text-sm font-semibold border border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-white rounded-3xl transition-all flex items-center gap-x-2"
+              class="hidden sm:flex px-5 py-2.5 text-sm font-semibold border border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-white rounded-3xl transition-all items-center gap-x-2"
             >
               <i class="fa-solid fa-download"></i>
               <span>Download APK</span>
             </a>
+
+            <!-- Mobile Burger -->
+            <button
+              id="burger-btn"
+              onclick="toggleMobileMenu()"
+              class="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-y-[5px] rounded-2xl hover:bg-zinc-900 transition-colors focus:outline-none"
+              aria-label="Toggle menu"
+              aria-expanded="false"
+            >
+              <span
+                class="burger-line block w-5 h-0.5 bg-zinc-300 rounded-full transition-all duration-300 origin-center"
+              ></span>
+              <span
+                class="burger-line block w-5 h-0.5 bg-zinc-300 rounded-full transition-all duration-300 origin-center"
+              ></span>
+              <span
+                class="burger-line block w-5 h-0.5 bg-zinc-300 rounded-full transition-all duration-300 origin-center"
+              ></span>
+            </button>
           </div>
+        </div>
+      </div>
+
+      <!-- Mobile Drawer -->
+      <div
+        id="mobile-menu"
+        class="md:hidden overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-in-out border-t border-zinc-800/0"
+      >
+        <div class="px-6 pb-6 pt-4 flex flex-col gap-y-1">
+          <a
+            href="#features"
+            onclick="closeMobileMenu()"
+            class="mobile-nav-link"
+          >
+            Features
+          </a>
+
+          <a href="#how" onclick="closeMobileMenu()" class="mobile-nav-link">
+            How it Works
+          </a>
+
+          <a
+            href="#screenshots"
+            onclick="closeMobileMenu()"
+            class="mobile-nav-link"
+          >
+            Screenshots
+          </a>
+
+          <a href="#roles" onclick="closeMobileMenu()" class="mobile-nav-link">
+            For Everyone
+          </a>
+
+          <!-- Mobile Download Button -->
+          <a
+            href="#"
+            onclick="
+              downloadApp();
+              closeMobileMenu();
+            "
+            class="sm:hidden mt-3 flex items-center justify-center gap-x-2 px-5 py-3 text-sm font-semibold border border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-white rounded-3xl transition-all"
+          >
+            <i class="fa-solid fa-download"></i>
+            <span>Download APK</span>
+          </a>
         </div>
       </div>
     </nav>
@@ -228,23 +339,25 @@
       <div
         class="max-w-screen-2xl mx-auto px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center"
       >
-        <div class="space-y-8">
+        <div class="flex flex-col gap-8 items-center lg:items-start">
           <div
-            class="inline-flex items-center gap-x-2 bg-zinc-900 border border-emerald-900 text-emerald-400 text-sm px-5 py-2 -mb-3 rounded-3xl"
+            class="inline-flex items-center gap-x-2 bg-zinc-900 border border-emerald-900 text-emerald-400 text-sm px-5 py-2 -mb-3 rounded-3xl reveal"
           >
             <div
               class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"
             ></div>
-            LIVE TRACKING ROOMS
+            LIVE TRACKING SYSTEM
           </div>
 
           <h1
-            class="heading-font text-5xl sm:text-6xl lg:text-7xl xl:text-[82px] font-bold leading-tight tracking-tighter text-white"
+            class="heading-font text-5xl sm:text-6xl lg:text-7xl xl:text-[82px] font-bold leading-tight tracking-tighter text-zinc-200 text-center lg:text-left reveal"
           >
             Never miss<br />your bus again.
           </h1>
 
-          <p class="text-xl text-zinc-400 max-w-md">
+          <p
+            class="text-xl text-zinc-400 max-w-md text-center lg:text-left reveal"
+          >
             Real-time collaborative bus tracking. Create rooms, share locations,
             and track your fleet with friends, schools, or communities.
           </p>
@@ -252,7 +365,7 @@
           <div class="flex flex-wrap gap-4">
             <button
               onclick="downloadApp()"
-              class="px-10 py-5 bg-emerald-500 hover:bg-emerald-600 transition-all text-black font-semibold text-lg rounded-3xl flex items-center gap-x-3 shadow-xl shadow-emerald-500/30"
+              class="px-10 py-5 bg-emerald-500 hover:bg-emerald-600 transition-all text-white font-semibold text-lg rounded-3xl flex items-center gap-x-3 shadow-xl shadow-emerald-500/30"
             >
               <i class="fa-solid fa-download"></i>
               <span>Download for Android</span>
@@ -265,10 +378,10 @@
           <div class="relative w-fit max-w-lg">
             <!-- Phone Mock -->
             <div
-              class="bg-zinc-900 p-3 rounded-[2rem] shadow-2xl border border-zinc-700 relative z-10 w-fit"
+              class="bg-zinc-900 p-3 rounded-[2rem] shadow-2xl border border-zinc-700 relative z-10 w-fit reveal"
             >
               <div
-                class="bg-slate-500 rounded-[1.35rem] overflow-hidden border border-zinc-800 relative w-fit h-[520px] max-h-[70vh]"
+                class="bg-slate-500 rounded-[1.35rem] overflow-hidden border border-zinc-800 relative w-fit h-[720px] max-h-[80vh]"
               >
                 <div class="hero-slider w-full h-full aspect-[8/16]">
                   <img
@@ -304,7 +417,7 @@
       <div class="max-w-screen-2xl mx-auto px-8">
         <div class="text-center mb-16">
           <span
-            class="px-4 py-1.5 text-xs tracking-widest font-mono bg-emerald-900/50 text-emerald-400 rounded-3xl"
+            class="px-4 py-1.5 text-xs tracking-widest font-mono bg-emerald-900/80 text-emerald-400 rounded-3xl"
             >POWERFUL FEATURES</span
           >
           <h2 class="heading-font text-6xl font-bold mt-6 reveal">
@@ -312,7 +425,7 @@
           </h2>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-8">
+        <div class="grid md:grid-cols-3 gap-5 md:gap-4 lg:gap-8">
           <div
             class="feature-card bg-zinc-900 border border-zinc-800 rounded-3xl p-10 reveal"
           >
@@ -412,10 +525,12 @@
     <!-- HOW IT WORKS -->
     <section id="how" class="py-28 bg-zinc-900">
       <div class="max-w-screen-2xl mx-auto px-8">
-        <div class="grid md:grid-cols-12 gap-16 items-center">
+        <div
+          class="flex flex-col-reverse md:grid md:grid-cols-12 gap-16 items-center"
+        >
           <div class="md:col-span-5">
             <span class="inline text-emerald-400 text-sm font-mono"
-              >3 STEPS • 30 SECONDS</span
+              >3 STEPS</span
             >
             <h2
               class="heading-font text-6xl font-bold leading-none mt-4 reveal"
@@ -423,14 +538,14 @@
               From zero to tracking in seconds
             </h2>
             <p class="mt-8 text-zinc-400 text-lg">
-              Whether you're a driver, parent, or fleet manager — BusTracker
+              Whether you're a driver, parent, or fleet manager - BusTracker
               makes coordination effortless.
             </p>
 
             <div class="mt-12 space-y-10">
               <div class="flex gap-x-6 reveal">
                 <div
-                  class="w-10 h-10 flex-shrink-0 bg-emerald-500 text-black rounded-2xl flex items-center justify-center font-bold"
+                  class="w-10 h-10 flex-shrink-0 bg-emerald-500 text-white rounded-2xl flex items-center justify-center font-bold"
                 >
                   1
                 </div>
@@ -444,7 +559,7 @@
               </div>
               <div class="flex gap-x-6 reveal">
                 <div
-                  class="w-10 h-10 flex-shrink-0 bg-emerald-500 text-black rounded-2xl flex items-center justify-center font-bold"
+                  class="w-10 h-10 flex-shrink-0 bg-emerald-500 text-white rounded-2xl flex items-center justify-center font-bold"
                 >
                   2
                 </div>
@@ -457,7 +572,7 @@
               </div>
               <div class="flex gap-x-6 reveal">
                 <div
-                  class="w-10 h-10 flex-shrink-0 bg-emerald-500 text-black rounded-2xl flex items-center justify-center font-bold"
+                  class="w-10 h-10 flex-shrink-0 bg-emerald-500 text-white rounded-2xl flex items-center justify-center font-bold"
                 >
                   3
                 </div>
@@ -474,7 +589,7 @@
             </div>
           </div>
 
-          <div class="md:col-span-7 reveal">
+          <div class="md:col-span-7 reveal w-full">
             <div class="bg-zinc-950 border border-zinc-700 rounded-3xl p-2">
               <div
                 class="bg-[#111827] rounded-3xl p-8 relative h-96 flex items-center justify-center overflow-hidden"
@@ -494,10 +609,13 @@
                   </div>
                   <div>
                     <div class="text-emerald-400 font-medium">
-                      Room “School Run” is active
+                      Room "MU Bus" is active
                     </div>
-                    <div class="mt-3 text-3xl font-light text-white">
-                      Bus heading to next stop
+                    <div class="my-3 text-3xl font-light text-white">
+                      Bus-04 heading to your stop
+                    </div>
+                    <div class="mt-4 text-blue-400 font-light italic">
+                      ETA ~5 minutes
                     </div>
                   </div>
                 </div>
@@ -578,7 +696,7 @@
             <div class="uppercase text-xs tracking-widest text-amber-400 mb-2">
               ROLE
             </div>
-            <div class="text-4xl heading-font font-bold mb-6">Admin</div>
+            <div class="text-4xl heading-font font-bold mb-5">Admin</div>
             <ul class="space-y-6">
               <li class="flex gap-x-4">
                 <span class="text-emerald-400">✓</span> Create &amp; manage
@@ -602,7 +720,7 @@
             <div class="uppercase text-xs tracking-widest text-sky-400 mb-2">
               ROLE
             </div>
-            <div class="text-4xl heading-font font-bold mb-6">Driver</div>
+            <div class="text-4xl heading-font font-bold mb-5">Driver</div>
             <ul class="space-y-6">
               <li class="flex gap-x-4">
                 <span class="text-emerald-400">✓</span> Start live trips
@@ -622,7 +740,7 @@
             <div class="uppercase text-xs tracking-widest text-violet-400 mb-2">
               ROLE
             </div>
-            <div class="text-4xl heading-font font-bold mb-6">Viewer</div>
+            <div class="text-4xl heading-font font-bold mb-5">Viewer</div>
             <ul class="space-y-6">
               <li class="flex gap-x-4">
                 <span class="text-emerald-400">✓</span> Real-time bus positions
@@ -648,7 +766,7 @@
           Ready to track smarter?
         </h2>
         <p class="mt-6 text-emerald-100 text-2xl">
-          Join BusTracker for safer, more reliable commutes.
+          Join BusTracker for tension free commutes.
         </p>
 
         <div class="mt-12">
@@ -671,10 +789,10 @@
     <footer class="bg-black py-20">
       <div class="max-w-screen-2xl mx-auto px-8">
         <div
-          class="flex flex-col md:flex-row justify-between items-start gap-y-12"
+          class="w-full flex flex-col md:flex-row justify-between items-start gap-y-6"
         >
-          <div>
-            <div class="flex items-center gap-x-3 mb-6">
+          <div class="w-full">
+            <div class="flex items-center gap-x-3 mb-3">
               <img
                 src="./assets/logo.png"
                 alt="BusTracker"
@@ -682,19 +800,19 @@
               />
               <span class="heading-font text-4xl font-bold">BusTracker</span>
             </div>
-            <p class="text-zinc-500 max-w-xs">
+            <p class="text-zinc-500">
               Real-time bus tracking made simple and beautiful.
             </p>
           </div>
 
-          <div class="grid grid-cols-3 gap-x-16">
-            <div>
+          <div class="w-full grid md:grid-cols-3 gap-x-16 gap-y-5">
+            <div class="flex flex-col gap-1">
               <div
-                class="uppercase text-xs font-medium tracking-widest mb-6 text-zinc-500"
+                class="uppercase text-xs font-medium tracking-widest text-zinc-500"
               >
                 Product
               </div>
-              <div class="space-y-4 text-sm">
+              <div class="text-sm flex flex-col gap-1">
                 <a href="#features" class="cursor-pointer hover:text-white"
                   >Features</a
                 >
@@ -702,24 +820,24 @@
                 <div class="cursor-pointer hover:text-white">For Fleets</div>
               </div>
             </div>
-            <div>
+            <div class="flex flex-col gap-1">
               <div
-                class="uppercase text-xs font-medium tracking-widest mb-6 text-zinc-500"
+                class="uppercase text-xs font-medium tracking-widest text-zinc-500"
               >
                 Company
               </div>
-              <div class="space-y-4 text-sm">
+              <div class="text-sm flex flex-col gap-1">
                 <div class="cursor-pointer hover:text-white">About</div>
                 <div class="cursor-pointer hover:text-white">Contact</div>
               </div>
             </div>
-            <div>
+            <div class="flex flex-col gap-1">
               <div
-                class="uppercase text-xs font-medium tracking-widest mb-6 text-zinc-500"
+                class="uppercase text-xs font-medium tracking-widest text-zinc-500"
               >
                 Legal
               </div>
-              <div class="space-y-4 text-sm">
+              <div class="text-sm flex flex-col gap-1">
                 <div class="cursor-pointer hover:text-white">Privacy</div>
                 <div class="cursor-pointer hover:text-white">Terms</div>
               </div>
@@ -728,11 +846,11 @@
         </div>
 
         <div
-          class="mt-20 pt-8 border-t border-zinc-900 text-xs text-zinc-500 flex flex-col md:flex-row justify-between items-center"
+          class="mt-20 pt-8 border-t border-slate-300 text-xs text-zinc-500 flex flex-col md:flex-row justify-between items-center"
         >
           <div>&copy; 2026 BusTracker. All rights reserved.</div>
           <div class="mt-4 md:mt-0">
-            Made for safer roads by
+            Built for stress-free commutes by
             <a
               href="https://shahsaminyasar.vercel.app"
               target="_blank"
@@ -807,6 +925,41 @@
 
         reveals.forEach((reveal) => observer.observe(reveal));
       }
+
+      function toggleMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        const btn = document.getElementById("burger-btn");
+        const isOpen = menu.classList.contains("open");
+
+        if (isOpen) {
+          menu.classList.remove("open");
+          btn.classList.remove("open");
+          btn.setAttribute("aria-expanded", "false");
+        } else {
+          menu.classList.add("open");
+          btn.classList.add("open");
+          btn.setAttribute("aria-expanded", "true");
+        }
+      }
+
+      function closeMobileMenu() {
+        document.getElementById("mobile-menu").classList.remove("open");
+        document.getElementById("burger-btn").classList.remove("open");
+        document
+          .getElementById("burger-btn")
+          .setAttribute("aria-expanded", "false");
+      }
+
+      // Close drawer when clicking outside
+      document.addEventListener("click", function (e) {
+        const nav = document.getElementById("navbar");
+        if (!nav.contains(e.target)) closeMobileMenu();
+      });
+
+      // Close drawer on resize to desktop
+      window.addEventListener("resize", function () {
+        if (window.innerWidth >= 768) closeMobileMenu();
+      });
 
       // Initialize
       window.onload = function () {
